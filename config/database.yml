@@ -1,0 +1,22 @@
+default: &default
+  adapter: sqlserver
+  host: trotamundosdb.cuvrbibw9zda.us-east-2.rds.amazonaws.com
+  username: sa
+  password: Trotamundosserver
+  database: trotamundosdb
+  port: 1433
+  encoding: utf8
+  azure: false
+  mode: dblib
+  timeout: 50000
+  login_timeout: 10
+
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+    container_name: trotamundos_api
+    ports:
+      - "3000:80"  # Puerto externo 3000 → Puerto interno 80 en el contenedor
+    environment:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      DB_HOST: 67.205.148.136
+      DB_PORT: 1433
+      DB_USERNAME: sa
+      DB_PASSWORD: Trota01@
+      DB_NAME: Trotamundosdb
+    networks:
+      - trotamundos
+
+networks:
+  trotamundos:
+    external: true
