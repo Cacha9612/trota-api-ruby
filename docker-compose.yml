@@ -6,7 +6,7 @@ services:
       context: .
     container_name: trotamundos_api
     ports:
-      - "3000:80"
+      - "3000:80"  # Puerto externo 3000 → Puerto interno 80 en el contenedor
     environment:
       RAILS_ENV: production
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
@@ -21,5 +21,3 @@ services:
 networks:
   trotamundos:
     external: true
-
- 
