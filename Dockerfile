@@ -19,9 +19,14 @@ ENV RAILS_ENV="production" \
 FROM base AS build
 
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config && \
-    freetds-dev \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    git \
+    libyaml-dev \
+    pkg-config \
+    freetds-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
