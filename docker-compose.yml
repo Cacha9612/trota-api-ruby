@@ -7,7 +7,7 @@ services:
       - "3000:80"
     environment:
       RAILS_ENV: production
-      RAILS_MASTER_KEY: cddd36811d9cccd6ed189edb503cd4d3
+      RAILS_MASTER_KEY: bf6fc7f9ee1a12ddca1e19359c9d8e8c
       DB_HOST: 67.205.148.136
       DB_PORT: 1433
       DB_USERNAME: sa
