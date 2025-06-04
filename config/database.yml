@@ -22,4 +22,3 @@ production:
 
 cable:
   <<: *default
-  database: <%= ENV["DB_NAME"] %>
