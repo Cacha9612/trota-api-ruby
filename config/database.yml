@@ -18,10 +18,7 @@ test:
   <<: *default
 
 production:
-  primary:
-    <<: *default
-  queue:
-    <<: *default
+  <<: *default
 
 cable:
   <<: *default
