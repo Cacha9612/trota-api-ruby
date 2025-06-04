@@ -17,7 +17,6 @@ ENV RAILS_ENV="production" \
     BUNDLE_WITHOUT="development" \
     PATH="${BUNDLE_PATH}/bin:${PATH}"
 
-# Etapa de build
 FROM base AS build
 
 RUN apt-get update -qq && \
@@ -33,20 +32,18 @@ COPY . .
 
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Etapa final
 FROM base
-
-WORKDIR /app
 
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /app /app
+COPY --from=build /app/bin/docker-entrypoint /app/bin/docker-entrypoint
 
 RUN chmod +x /app/bin/docker-entrypoint
 
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    mkdir -p /app/db /app/log /app/storage /app/tmp && \
-    chown -R rails:rails /app/db /app/log /app/storage /app/tmp
+    mkdir -p db log storage tmp && \
+    chown -R rails:rails db log storage tmp
 
 USER 1000:1000
 
