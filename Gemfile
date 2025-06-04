@@ -4,7 +4,7 @@ gem "rails", "~> 8.0.2"
 
 # SQL Server adapter (compatible con Rails 8)
 gem "tiny_tds"
-gem "activerecord-sqlserver-adapter", github: "rails-sqlserver/activerecord-sqlserver-adapter", branch: "main"
+gem "activerecord-sqlserver-adapter", "~> 7.1.3"
 
 # Puma web server
 gem "puma", ">= 5.0"
