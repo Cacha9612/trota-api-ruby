@@ -11,11 +11,9 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Definir ENV explícitamente
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
+ENV RAILS_ENV=production \
     BUNDLE_PATH=${BUNDLE_PATH} \
-    BUNDLE_WITHOUT="development" \
+    BUNDLE_WITHOUT="development test" \
     PATH="${BUNDLE_PATH}/bin:${PATH}"
 
 FROM base AS build
@@ -25,31 +23,28 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 COPY Gemfile Gemfile.lock ./
+
+# Instala las gemas y los binarios
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
 COPY . .
 
+# Precompila bootsnap y otros binarios
 RUN bundle exec bootsnap precompile app/ lib/
 
 FROM base
 
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-RUN rm -rf /app
-COPY --from=build /app/ /app/
-COPY --from=build /app/bin/docker-entrypoint /app/bin/docker-entrypoint
+# Copia todo desde la fase build
+COPY --from=build /app /app
+COPY --from=build ${BUNDLE_PATH} ${BUNDLE_PATH}
 
-RUN chmod +x /app/bin/docker-entrypoint
+# Copia el entrypoint
+COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
+RUN chmod +x /usr/bin/docker-entrypoint.sh
 
-RUN groupadd --system --gid 1000 rails && \
-    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    mkdir -p db log storage tmp && \
-    chown -R rails:rails db log storage tmp
+ENTRYPOINT ["docker-entrypoint.sh"]
 
-USER 1000:1000
-
-ENTRYPOINT ["/app/bin/docker-entrypoint"]
-EXPOSE 80
-
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "80"]
+# Usa Puma como server en producción (puerto 80 interno)
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

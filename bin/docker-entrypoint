@@ -1,15 +1,11 @@
 #!/bin/bash
 set -e
 
-# Exportar variables para asegurar el PATH
-export BUNDLE_PATH="/usr/local/bundle"
-export PATH="$BUNDLE_PATH/bin:$PATH"
-
 echo "PATH is: $PATH"
-which bundle || echo "bundle not found"
+which bundle
 which rails || echo "rails not found"
 
 echo "Ejecutando migraciones de base de datos..."
-bundle exec rails db:migrate
+bundle exec rails db:migrate || echo "No se pudieron ejecutar migraciones"
 
 exec "$@"

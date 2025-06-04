@@ -6,7 +6,7 @@ services:
       context: .
     container_name: trotamundos_api
     ports:
-      - "3000:80"  # host:container (Rails escucha en 80, accesible desde host en 3000)
+      - "3000:80"  # Rails escucha en el puerto 80 del contenedor
     environment:
       RAILS_ENV: production
       RAILS_MASTER_KEY: bf6fc7f9ee1a12ddca1e19359c9d8e8c
@@ -17,6 +17,7 @@ services:
       DB_NAME: Trotamundosdb
     networks:
       - trotamundos
+    entrypoint: /usr/bin/docker-entrypoint.sh
 
 networks:
   trotamundos:
