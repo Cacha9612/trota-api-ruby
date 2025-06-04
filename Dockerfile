@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 
 ARG RUBY_VERSION=3.2.2
+ARG BUNDLE_PATH="/usr/local/bundle"
+
 FROM ruby:${RUBY_VERSION}-slim AS base
 
 WORKDIR /rails
@@ -11,12 +13,14 @@ RUN apt-get update -qq && \
 
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_PATH=${BUNDLE_PATH} \
     BUNDLE_WITHOUT="development" \
     PATH="${BUNDLE_PATH}/bin:${PATH}"
 
-# Etapa para build
 FROM base AS build
+
+ENV BUNDLE_PATH=${BUNDLE_PATH} \
+    PATH="${BUNDLE_PATH}/bin:${PATH}"
 
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config freetds-dev && \
@@ -31,10 +35,10 @@ COPY . .
 
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Etapa final, runtime
 FROM base
 
-ENV PATH="${BUNDLE_PATH}/bin:${PATH}"
+ENV BUNDLE_PATH=${BUNDLE_PATH} \
+    PATH="${BUNDLE_PATH}/bin:${PATH}"
 
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
