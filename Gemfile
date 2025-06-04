@@ -1,8 +1,9 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 8.0.2"
+# Rails compatible con activerecord-sqlserver-adapter 7.1.x
+gem "rails", "~> 7.1.3"
 
-# SQL Server adapter (compatible con Rails 8)
+# SQL Server adapter
 gem "tiny_tds"
 gem "activerecord-sqlserver-adapter", "~> 7.1.3"
 
