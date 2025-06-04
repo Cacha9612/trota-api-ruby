@@ -12,13 +12,22 @@ default: &default
   login_timeout: 10
 
 development:
-  <<: *default
+  primary:
+    <<: *default
 
 test:
-  <<: *default
+  primary:
+    <<: *default
 
 production:
-  <<: *default
+  primary:
+    <<: *default
+    database: myapp_production
 
-cable:
-  <<: *default
+  queue:
+    <<: *default
+    database: myapp_production_queue
+
+  cable:
+    <<: *default
+    database: myapp_production
