@@ -5,7 +5,7 @@ ARG BUNDLE_PATH="/usr/local/bundle"
 
 FROM ruby:${RUBY_VERSION}-slim AS base
 
-WORKDIR /rails
+WORKDIR /app
 
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
@@ -36,18 +36,20 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Etapa final
 FROM base
 
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
+WORKDIR /app
 
-RUN chmod +x /rails/bin/docker-entrypoint
+COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --from=build /app /app
+
+RUN chmod +x /app/bin/docker-entrypoint
 
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    mkdir -p /rails/db /rails/log /rails/storage /rails/tmp && \
-    chown -R rails:rails /rails/db /rails/log /rails/storage /rails/tmp
+    mkdir -p /app/db /app/log /app/storage /app/tmp && \
+    chown -R rails:rails /app/db /app/log /app/storage /app/tmp
 
 USER 1000:1000
 
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+ENTRYPOINT ["/app/bin/docker-entrypoint"]
 EXPOSE 80
 CMD ["./bin/thrust", "./bin/rails", "server"]
