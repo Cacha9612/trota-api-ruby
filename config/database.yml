@@ -18,9 +18,11 @@ test:
   <<: *default
 
 production:
-  <<: *default
+  primary:
+    <<: *default
+  queue:
+    <<: *default
 
 cable:
   <<: *default
-  # Aquí puedes usar la misma base de datos que production
   database: <%= ENV["DB_NAME"] %>
