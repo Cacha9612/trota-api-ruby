@@ -35,6 +35,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 FROM base
 
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+RUN rm -rf /app
 COPY --from=build /app/ /app/
 COPY --from=build /app/bin/docker-entrypoint /app/bin/docker-entrypoint
 
