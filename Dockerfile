@@ -17,7 +17,6 @@ ENV RAILS_ENV=production \
     BUNDLE_WITHOUT="development test" \
     PATH="${BUNDLE_PATH}/bin:${PATH}"
 
-# Etapa de compilación
 FROM base AS build
 
 RUN apt-get update -qq && \
@@ -25,7 +24,6 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 COPY Gemfile Gemfile.lock ./
-
 RUN bundle install --jobs 4 && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache
 
@@ -34,16 +32,17 @@ COPY . .
 RUN bundle exec bootsnap precompile --gemfile
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Imagen final
 FROM base
 
 WORKDIR /app
 
-# Copia solo lo necesario desde la etapa build
-COPY --from=build /app /app
+# ✅ Solución: copia archivos sin reemplazar directorios como bin/
+COPY --from=build /app/. /app/
+
+# ✅ También asegúrate de copiar las gems instaladas
 COPY --from=build ${BUNDLE_PATH} ${BUNDLE_PATH}
 
-# Asegura que el entrypoint tenga permisos de ejecución
+# ✅ Asegura que tu script de entrada sea ejecutable
 RUN chmod +x /app/bin/docker-entrypoint
 
 ENTRYPOINT ["/app/bin/docker-entrypoint"]
