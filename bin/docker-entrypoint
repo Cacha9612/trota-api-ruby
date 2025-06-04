@@ -1,12 +1,7 @@
 #!/bin/bash
 set -e
 
-# Migrar la base de datos si es necesario
 echo "Ejecutando migraciones de base de datos..."
 bundle exec rails db:migrate
 
-# Puedes agregar aquí otras tareas previas si quieres, por ejemplo:
-# bundle exec rails db:seed
-
-# Finalmente, ejecutar el comando que se pasa al contenedor
 exec "$@"
