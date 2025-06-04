@@ -12,10 +12,12 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 ENV RAILS_ENV=production \
+    BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=${BUNDLE_PATH} \
     BUNDLE_WITHOUT="development test" \
     PATH="${BUNDLE_PATH}/bin:${PATH}"
 
+# Etapa de compilación
 FROM base AS build
 
 RUN apt-get update -qq && \
@@ -24,27 +26,25 @@ RUN apt-get update -qq && \
 
 COPY Gemfile Gemfile.lock ./
 
-# Instala las gemas y los binarios
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+RUN bundle install --jobs 4 && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache
 
 COPY . .
 
-# Precompila bootsnap y otros binarios
+RUN bundle exec bootsnap precompile --gemfile
 RUN bundle exec bootsnap precompile app/ lib/
 
+# Imagen final
 FROM base
 
-# Copia todo desde la fase build
+WORKDIR /app
+
+# Copia solo lo necesario desde la etapa build
 COPY --from=build /app /app
 COPY --from=build ${BUNDLE_PATH} ${BUNDLE_PATH}
 
-# Copia el entrypoint
-COPY --from=build /app/bin/docker-entrypoint /app/bin/docker-entrypoint
+# Asegura que el entrypoint tenga permisos de ejecución
 RUN chmod +x /app/bin/docker-entrypoint
+
 ENTRYPOINT ["/app/bin/docker-entrypoint"]
-
-
-# Usa Puma como server en producción (puerto 80 interno)
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
