@@ -41,10 +41,10 @@ COPY --from=build /app /app
 COPY --from=build ${BUNDLE_PATH} ${BUNDLE_PATH}
 
 # Copia el entrypoint
-COPY docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
-RUN chmod +x /usr/bin/docker-entrypoint.sh
+COPY --from=build /app/bin/docker-entrypoint /app/bin/docker-entrypoint
+RUN chmod +x /app/bin/docker-entrypoint
+ENTRYPOINT ["/app/bin/docker-entrypoint"]
 
-ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Usa Puma como server en producción (puerto 80 interno)
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

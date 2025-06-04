@@ -2,10 +2,10 @@
 set -e
 
 echo "PATH is: $PATH"
-which bundle
-which rails || echo "rails not found"
+which bundle || true
+which rails || true
 
 echo "Ejecutando migraciones de base de datos..."
-bundle exec rails db:migrate || echo "No se pudieron ejecutar migraciones"
+bundle exec rails db:migrate
 
 exec "$@"
