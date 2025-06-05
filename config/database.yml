@@ -22,12 +22,12 @@ test:
 production:
   primary:
     <<: *default
-    database: myapp_production
+    database: trotamundosdb
 
   queue:
     <<: *default
-    database: myapp_production_queue
+    database: trotamundosdb_queue
 
   cable:
     <<: *default
-    database: myapp_production
+    database: trotamundosdb
