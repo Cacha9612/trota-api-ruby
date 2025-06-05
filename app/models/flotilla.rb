@@ -1,0 +1,2 @@
+class Flotilla < ApplicationRecord
+end

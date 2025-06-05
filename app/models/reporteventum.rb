@@ -1,0 +1,2 @@
+class Reporteventum < ApplicationRecord
+end

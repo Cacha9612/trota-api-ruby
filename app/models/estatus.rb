@@ -1,0 +1,2 @@
+class Estatus < ApplicationRecord
+end
