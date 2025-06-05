@@ -14,7 +14,7 @@ services:
       DB_PORT: 1433
       DB_USERNAME: sa
       DB_PASSWORD: Trota01@
-      DB_NAME: Trotamundosdb
+      DB_NAME: trotamundosdb
     networks:
       - trotamundos
     # ❌ Quitar esto porque lo sobreescribe el Dockerfile (ENTRYPOINT ya está ahí)
