@@ -26,6 +26,9 @@ gem "kamal", require: false
 
 # Aceleración HTTP opcional
 gem "thruster", require: false
+gem 'jwt'
+gem 'bcrypt', '~> 3.1.7'
+
 
 # Para procesamiento de imágenes si usas Active Storage (opcional)
 # gem "image_processing", "~> 1.2"

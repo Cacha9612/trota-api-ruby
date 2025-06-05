@@ -1,11 +1,8 @@
-# config/routes.rb
 Rails.application.routes.draw do
-  root to: proc { [200, {}, ['API Trotamundos']] }
+  # Endpoints REST para todos los recursos migrados
 
-  namespace :api do
-    namespace :v1 do
-      resources :clientes
-      resources :vehiculos
-    end
-  end
+  resources :reporteventas
+  resources :clientes
+  resources :vehiculos
+  resources :checklists
 end
