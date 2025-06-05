@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :clientes
   resources :vehiculos
   resources :checklists
+  resources :empleados
 
   # Ruta para login
   post '/api/seguridad/iniciarsesion', to: 'sessions#create'
