@@ -26,7 +26,7 @@ production:
 
   queue:
     <<: *default
-    database: trotamundosdb_queue
+    database: trotamundosdb
 
   cable:
     <<: *default
