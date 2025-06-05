@@ -169,7 +169,6 @@ class CreateChecklists < ActiveRecord::Migration[7.1]
       t.integer :Id_ordendeservicio
       t.string :NumeroSerie
       t.string :TiempoTranscurrido
-      t.integer :id
       t.integer :id_checklist
       t.integer :Activo
 
