@@ -1,5 +1,5 @@
-class ChecklistService
-  def self.create_with_data(params)
+class ChecklistServices
+   def self.create_with_data(params)
     checklist = Checklist.new(params)
     if checklist.save
       checklist
