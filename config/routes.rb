@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
-  # Endpoints REST para todos los recursos migrados
   resources :reporteventas
   resources :clientes
   resources :vehiculos
   resources :checklists
   resources :empleados
-  
 
-
-  # Ruta para login
+  # Ruta para buscar un empleado por su campo IdUsuario
   get 'empleados/por_usuario/:id_usuario', to: 'empleados#por_usuario'
+
+  # Ruta de login
   post '/api/seguridad/iniciarsesion', to: 'sessions#create'
 end

@@ -1,59 +1,63 @@
 class EmpleadosController < ApplicationController
   before_action :set_empleado, only: [:show, :update, :destroy]
 
-  def por_usuario
-  empleado = Empleado.find_by(IdUsuario: params[:id_usuario])
-
-  if empleado
-    render json: empleado
-  else
-    render json: { error: "Empleado no encontrado" }, status: :not_found
+  # GET /empleados
+  def index
+    @empleados = Empleado.all
+    render json: @empleados
   end
+
+  # GET /empleados/:id
   def show
-    if @empleado
-      render json: @empleado
+    render json: @empleado
+  end
+
+  # GET /empleados/por_usuario/:id_usuario
+  def por_usuario
+    # Busca por el campo IdUsuario (no por la PK id)
+    empleado = Empleado.find_by(IdUsuario: params[:id_usuario])
+
+    if empleado
+      render json: empleado
     else
       render json: { error: "Empleado no encontrado" }, status: :not_found
     end
   end
 
+  # POST /empleados
   def create
-    empleado = EmpleadoService.crear_empleado(empleado_params)
-    if empleado.persisted?
+    empleado = Empleado.new(empleado_params)
+    if empleado.save
       render json: empleado, status: :created
     else
       render json: { errors: empleado.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
+  # PUT /empleados/:id
   def update
-    if @empleado
-      if EmpleadoService.actualizar_empleado(@empleado.id, empleado_params)
-        render json: @empleado
-      else
-        render json: { errors: @empleado.errors.full_messages }, status: :unprocessable_entity
-      end
+    if @empleado.update(empleado_params)
+      render json: @empleado
     else
-      render json: { error: "Empleado no encontrado" }, status: :not_found
+      render json: { errors: @empleado.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
+  # DELETE /empleados/:id
   def destroy
-    if @empleado
-      EmpleadoService.eliminar_empleado(@empleado.id)
-      render json: { message: "Empleado eliminado correctamente" }
-    else
-      render json: { error: "Empleado no encontrado" }, status: :not_found
-    end
+    @empleado.destroy
+    head :no_content
   end
 
   private
 
   def set_empleado
     @empleado = Empleado.find_by(id: params[:id])
+    render(json: { error: "Empleado no encontrado" }, status: :not_found) unless @empleado
   end
 
   def empleado_params
+    # Recuerda usar snake_case en tu JSON. Si mandas { "IdUsuario": 1, … }, Rails lo interpretará como params[:IdUsuario].
     params.require(:empleado).permit(:IdUsuario, :Nombre, :Rol, :Estatus)
   end
 end
