@@ -1,4 +1,4 @@
-class EmpleadosController < ApplicationController
+class Api::Empleados::EmpleadosController < ApplicationController
   before_action :set_empleado, only: [:show, :update, :destroy]
 
   # GET /empleados

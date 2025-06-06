@@ -1,5 +1,5 @@
 # app/controllers/reporte_ventas_controller.rb
-class ReporteVentasController < ApplicationController
+class Api::ReporteVentas::ReporteVentasController < ApplicationController
   def index
     render json: ReporteVentaService.all
   end

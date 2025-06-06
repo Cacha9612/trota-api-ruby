@@ -1,4 +1,4 @@
-class ClientesController < ApplicationController
+class Api::Clientes::ClientesController < ApplicationController
   def index
     clientes = ClientesService.listar
     render json: clientes

@@ -1,6 +1,6 @@
 module Api
   module Seguridad
-    class SeguridadController < ApplicationController
+    class Api::Seguridad::SeguridadController < ApplicationController
       def login
         user = Negocio.get_usuario(params[:usuario], params[:password])
         if user.nil?

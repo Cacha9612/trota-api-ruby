@@ -1,6 +1,5 @@
 require 'jwt'
-
-class SessionsController < ApplicationController
+class Api::Sessions::SessionsController < ApplicationController
   SECRET_KEY = Rails.application.secrets.secret_key_base.to_s
 
   def create

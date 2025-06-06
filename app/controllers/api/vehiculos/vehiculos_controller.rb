@@ -1,4 +1,4 @@
-class VehiculosController < ApplicationController
+class Api::Vehiculos::VehiculosController < ApplicationController
   def index
     @vehiculos = VehiculoService.listar_vehiculos
     render json: @vehiculos
