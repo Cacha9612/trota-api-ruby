@@ -1,4 +1,4 @@
-class ClientesService
+class ClienteServices
   def self.listar
     Cliente.all
   end

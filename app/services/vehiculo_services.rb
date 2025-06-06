@@ -1,4 +1,4 @@
-class VehiculoService
+class VehiculoServices
   def self.crear_vehiculo(params)
     Vehiculo.create(params)
   end

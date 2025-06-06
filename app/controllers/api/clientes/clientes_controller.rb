@@ -1,11 +1,11 @@
 class Api::Clientes::ClientesController < ApplicationController
   def index
-    clientes = ClientesService.listar
+    clientes = ClienteServices.listar
     render json: clientes
   end
 
   def show
-    cliente = ClientesService.buscar(params[:id])
+    cliente = ClienteServices.buscar(params[:id])
     if cliente
       render json: cliente
     else
@@ -14,7 +14,7 @@ class Api::Clientes::ClientesController < ApplicationController
   end
 
   def create
-    cliente = ClientesService.crear(cliente_params)
+    cliente = ClienteServices.crear(cliente_params)
     if cliente.persisted?
       render json: cliente, status: :created
     else
@@ -23,7 +23,7 @@ class Api::Clientes::ClientesController < ApplicationController
   end
 
   def update
-    cliente = ClientesService.actualizar(params[:id], cliente_params)
+    cliente = ClienteServices.actualizar(params[:id], cliente_params)
     if cliente
       render json: cliente
     else
@@ -32,7 +32,7 @@ class Api::Clientes::ClientesController < ApplicationController
   end
 
   def destroy
-    if ClientesService.eliminar(params[:id])
+    if ClienteServices.eliminar(params[:id])
       head :no_content
     else
       render json: { error: 'Cliente no encontrado' }, status: :not_found

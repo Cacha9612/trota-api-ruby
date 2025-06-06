@@ -1,4 +1,4 @@
-class EmpleadoService
+class EmpleadoServices
   def self.crear_empleado(params)
     Empleado.create(params)
   end

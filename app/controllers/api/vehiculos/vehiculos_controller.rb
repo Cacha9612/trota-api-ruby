@@ -1,16 +1,16 @@
 class Api::Vehiculos::VehiculosController < ApplicationController
   def index
-    @vehiculos = VehiculoService.listar_vehiculos
+    @vehiculos = VehiculoServices.listar_vehiculos
     render json: @vehiculos
   end
 
   def show
-    @vehiculo = VehiculoService.obtener_vehiculo(params[:id])
+    @vehiculo = VehiculoServices.obtener_vehiculo(params[:id])
     render json: @vehiculo
   end
 
   def create
-    @vehiculo = VehiculoService.crear_vehiculo(vehiculo_params)
+    @vehiculo = VehiculoServices.crear_vehiculo(vehiculo_params)
     if @vehiculo.persisted?
       render json: @vehiculo, status: :created
     else
@@ -19,7 +19,7 @@ class Api::Vehiculos::VehiculosController < ApplicationController
   end
 
   def update
-    @vehiculo = VehiculoService.actualizar_vehiculo(params[:id], vehiculo_params)
+    @vehiculo = VehiculoServices.actualizar_vehiculo(params[:id], vehiculo_params)
     if @vehiculo.errors.empty?
       render json: @vehiculo
     else
@@ -28,7 +28,7 @@ class Api::Vehiculos::VehiculosController < ApplicationController
   end
 
   def destroy
-    VehiculoService.eliminar_vehiculo(params[:id])
+    VehiculoServices.eliminar_vehiculo(params[:id])
     head :no_content
   end
 
