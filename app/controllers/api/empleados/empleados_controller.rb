@@ -13,16 +13,11 @@ class EmpleadosController < ApplicationController
   end
 
   # GET /empleados/por_usuario/:id_usuario
-  def por_usuario
-    # Busca por el campo IdUsuario (no por la PK id)
-    empleado = Empleado.find_by(IdUsuario: params[:id_usuario])
-
-    if empleado
-      render json: empleado
-    else
-      render json: { error: "Empleado no encontrado" }, status: :not_found
+    def por_usuario
+    @empleado = Empleado.find_by(usuario_id: params[:id])
+    render json: @empleado
     end
-  end
+
 
   # POST /empleados
   def create
