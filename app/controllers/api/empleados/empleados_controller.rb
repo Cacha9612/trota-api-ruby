@@ -14,7 +14,8 @@ class EmpleadosController < ApplicationController
 
   # GET /empleados/por_usuario/:id_usuario
     def por_usuario
-    @empleado = Empleado.find_by(usuario_id: params[:id])
+    @empleado = Empleado.find_by(IdUsuario: params[:id])
+
     render json: @empleado
     end
 
