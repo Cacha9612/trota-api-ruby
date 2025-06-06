@@ -4,7 +4,8 @@ module Api
       def index
         checklists = Checklist.all
         render json: checklists
-      end
+        
+      end 
 
       def show
         checklist = Checklist.find(params[:id])
