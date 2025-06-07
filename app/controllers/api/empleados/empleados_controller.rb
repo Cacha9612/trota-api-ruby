@@ -13,6 +13,7 @@ class Api::Empleados::EmpleadosController < ApplicationController
   end
 
   # GET /empleados/por_usuario/:id_usuario
+# GET /empleados/por_usuario/:id_usuario
 def por_usuario
   empleado = Empleado.includes(:rol).find_by(IdUsuario: params[:id])
 
@@ -27,6 +28,8 @@ def por_usuario
   else
     render json: []
   end
+end  # <-- Este end es el que te faltaba
+
 
 
   # POST /empleados
