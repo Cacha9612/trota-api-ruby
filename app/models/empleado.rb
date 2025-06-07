@@ -1,19 +1,12 @@
 class Empleado < ApplicationRecord
-  enum Rol: {
-    administrador: 1,
-    almacen: 2,
-    tecnicos: 3,
-    jefe_de_taller: 4
-  }
+  belongs_to :rol, class_name: 'Rol', foreign_key: 'Id_Rol'
 
-  enum Estatus: {
-    inactivo: 0,
-    activo: 1
-  }
-
+  enum Estatus: { inactivo: 0, activo: 1 }
 
   validates :IdUsuario, presence: true, uniqueness: true
   validates :Nombre, presence: true
+
+  def rol_nombre
+    rol&.Descripcion || "Desconocido"
+  end
 end
-
-

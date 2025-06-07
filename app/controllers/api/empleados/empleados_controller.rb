@@ -14,13 +14,18 @@ class Api::Empleados::EmpleadosController < ApplicationController
 
   # GET /empleados/por_usuario/:id_usuario
 def por_usuario
-  empleado = Empleado.find_by(IdUsuario: params[:id])
+  empleado = Empleado.includes(:rol).find_by(IdUsuario: params[:id])
 
-    if empleado
-      render json: [empleado] # devuelve un array con un solo objeto
-    else
-      render json: [] # devuelve un array vacío si no encuentra nada
-    end
+  if empleado
+    render json: [{
+      IdUsuario: empleado.IdUsuario,
+      Nombre: empleado.Nombre,
+      Id_Rol: empleado.Id_Rol,
+      Descripcion: empleado.rol_nombre,
+      Estatus: empleado.Estatus
+    }]
+  else
+    render json: []
   end
 
 
