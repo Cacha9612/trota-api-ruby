@@ -12,12 +12,10 @@ class Api::Empleados::EmpleadosController < ApplicationController
     render json: @empleado
   end
 
-  # GET /empleados/por_usuario/:id_usuario
-    def por_usuario
-    @empleado = Empleado.find_by(IdUsuario: params[:id])
-
-    render json: @empleado
-    end
+def por_usuario
+  empleado = Empleado.find(params[:id])
+  render json: [empleado] # <- Envolver en array
+end
 
 
   # POST /empleados
