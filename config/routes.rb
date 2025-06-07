@@ -3,12 +3,12 @@ Rails.application.routes.draw do
   # Ruta raíz simple
   root to: proc { [200, {}, ['API funcionando']] }
 
-  namespace :api do
-    namespace :empleados do
-      get 'por_usuario/:id', to: 'empleados#por_usuario'
-      resources :empleados
-    end
+namespace :api do
+  namespace :empleados do
+    get 'por_usuario/:id', to: 'empleados#por_usuario'
   end
+end
+
 
   resources :reporteventas
   resources :clientes
