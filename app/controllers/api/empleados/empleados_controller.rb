@@ -15,7 +15,7 @@ class Api::Empleados::EmpleadosController < ApplicationController
   # GET /empleados/por_usuario/:id_usuario
 # GET /empleados/por_usuario/:id_usuario
 def por_usuario
-  empleado = Empleado.includes(:rol).find_by(IdUsuario: params[:id])
+  empleado = Empleado.includes(:Rol).find_by(IdUsuario: params[:id])
 
   if empleado
     render json: [{

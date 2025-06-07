@@ -6,7 +6,7 @@ class Empleado < ApplicationRecord
   validates :IdUsuario, presence: true, uniqueness: true
   validates :Nombre, presence: true
 
-  def rol_nombre
-    rol&.Descripcion || "Desconocido"
-  end
+  #def rol_nombre
+   # rol&.Descripcion || "Desconocido"
+  #end
 end
