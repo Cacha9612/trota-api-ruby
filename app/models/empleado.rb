@@ -1,5 +1,5 @@
 class Empleado < ApplicationRecord
-  belongs_to :rol, class_name: 'Rol', foreign_key: 'Id_Rol'
+  belongs_to :role, foreign_key: 'Id_Rol'
 
   enum Estatus: { inactivo: 0, activo: 1 }
 
