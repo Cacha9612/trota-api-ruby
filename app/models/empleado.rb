@@ -1,7 +1,9 @@
 class Empleado < ApplicationRecord
-  enum rol: { administrador: 0, supervisor: 1, empleado: 2 }
-  enum estatus: { inactivo: 0, activo: 1 }
+  enum Rol: { Administrador: 0, Almacén: 1, Técnicos: 2, Jefé_Taller: 3 }
+  enum Estatus: { inactivo: 0, activo: 1 }
 
   validates :IdUsuario, presence: true, uniqueness: true
   validates :Nombre, presence: true
 end
+
+
