@@ -1,11 +1,11 @@
 source "https://rubygems.org"
 
 # Rails compatible con activerecord-sqlserver-adapter 7.1.x
-gem "rails", "~> 7.1.3"
+gem "rails", "~> 8.0.2"
 
 # SQL Server adapter
 gem "tiny_tds"
-gem "activerecord-sqlserver-adapter", "~> 7.1.3"
+gem "activerecord-sqlserver-adapter", "~> 8.0.6"
 
 # Puma web server
 gem "puma", ">= 5.0"
